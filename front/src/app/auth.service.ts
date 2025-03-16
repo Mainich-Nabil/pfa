@@ -1,7 +1,7 @@
 import {Injectable} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
 import {Router} from '@angular/router';
-import {Observable} from 'rxjs';
+import {Observable, tap} from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -18,16 +18,16 @@ export class AuthService {
     return this.http.post(`${this.apiurl}/login`, user);
   }
 
-  logout(): void {
-    this.http.delete(`${this.apiurl}/logout`);
-    localStorage.removeItem('session');
-    this.router.navigate(['/login'])
+  logout(): Observable<any> {
+    return this.http.post(`${this.apiurl}/logout`, {}).pipe(
+      tap(() => {
+        localStorage.removeItem('session');
+        this.router.navigate(['/login']);
+      })
+    );
   }
 
   checkSession(): Observable<any> {
     return this.http.get(`${this.apiurl}/check-session`);
   }
-
-
-
 }

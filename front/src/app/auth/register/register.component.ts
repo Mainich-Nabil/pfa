@@ -1,10 +1,9 @@
 import { Component } from '@angular/core';
-import { CommonModule} from '@angular/common';
-import {FormsModule} from '@angular/forms';
-import {Router} from '@angular/router';
-import { AuthService} from '../../auth.service';
-import {firstValueFrom} from 'rxjs';
-
+import { CommonModule } from '@angular/common';
+import { FormsModule } from '@angular/forms';
+import { Router } from '@angular/router';
+import { AuthService } from '../../auth.service';
+import { firstValueFrom } from 'rxjs';
 
 @Component({
   selector: 'app-register',
@@ -14,24 +13,32 @@ import {firstValueFrom} from 'rxjs';
   styleUrl: './register.component.css'
 })
 export class RegisterComponent {
-  user = {email: '',password: '',nom: '',prenom: ''};
+  // Use field names that match the backend model properties
+  user = {
+    nom: '',           // Instead of firstName
+    prenom: '',        // Instead of lastName
+    email: '',
+    motDePasse: ''     // Instead of password
+  };
   message = '';
 
-  constructor(private authService: AuthService, private router: Router) {
-  }
+  constructor(private authService: AuthService, private router: Router) {}
 
   async register() {
     try {
-      const resonse = await firstValueFrom(this.authService.register(this.user));
-      if (resonse.status === 'success') {
+      // Log the data before sending to backend for debugging
+      console.log('Sending registration data:', JSON.stringify(this.user));
+
+      const response = await firstValueFrom(this.authService.register(this.user));
+      if (response.status === 'success') {
         this.router.navigate(['/']);
-        this.message = "success";
+        this.message = "Registration successful!";
       } else {
-        this.message = "error de enregistrement";
+        this.message = response.message || "Registration failed";
       }
     } catch (error) {
-      this.message = "error de la demande";
+      console.error('Registration error:', error);
+      this.message = "Request failed. Please try again.";
     }
   }
-
 }

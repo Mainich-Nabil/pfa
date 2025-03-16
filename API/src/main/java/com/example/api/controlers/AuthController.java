@@ -1,17 +1,26 @@
 package com.example.api.controlers;
 
-import com.example.api.entities.Utilisateur;
-import com.example.api.services.ServiceUtilisateure;
+import java.util.HashMap;
+import java.util.Map;
+
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
+
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
-import java.util.HashMap;
-import java.util.Map;
+import com.example.api.entities.Utilisateur;
+import com.example.api.services.ServiceUtilisateure;
 
 @RestController
 @RequestMapping("/auth")
@@ -32,18 +41,35 @@ public class AuthController {
     @PostMapping("/register")
     public ResponseEntity<Map<String, String>> registerUser(@RequestBody Utilisateur utilisateur) {
         Map<String, String> response = new HashMap<>();
-        if(utilisateur.getEmail() != null){
-            Utilisateur newUser = new Utilisateur(
-                    utilisateur.getNom(),
-                    utilisateur.getPrenom(),
-                    utilisateur.getEmail(),
-                    passwordEncoder.encode(utilisateur.getMotDePasse())
-            );
-            serviceUtilisateur.createUser(newUser);
-            response.put("status","success");
-            return ResponseEntity.ok(response);
-        } else {
+        try {
+
+
+
+            if(utilisateur.getEmail() != null){
+                Utilisateur newUser = new Utilisateur(
+                        utilisateur.getNom(),
+                        utilisateur.getPrenom(),
+                        utilisateur.getEmail(),
+                        passwordEncoder.encode(utilisateur.getMotDePasse())
+                );
+
+
+
+                serviceUtilisateur.createUser(newUser);
+                response.put("status","success");
+                return ResponseEntity.ok(response);
+            } else {
+                response.put("status","error");
+                response.put("message", "Email cannot be null");
+                return ResponseEntity.badRequest().body(response);
+            }
+        } catch (Exception e) {
+            // Detailed error logging
+            System.err.println("Registration error: " + e.getMessage());
+
+
             response.put("status","error");
+            response.put("message", e.getMessage());
             return ResponseEntity.badRequest().body(response);
         }
     }
@@ -62,23 +88,24 @@ public class AuthController {
             response.put("status","success");
             return ResponseEntity.ok(response);
         } catch (Exception e) {
+            System.err.println("Login error: " + e.getMessage());
             response.put("status","error");
             response.put("message", e.getMessage());
             return ResponseEntity.badRequest().body(response);
         }
     }
 
-    @GetMapping("/logout")
-    public ResponseEntity<Map<String, String>> logoutUser() {
-        Map<String, String> response = new HashMap<>();
+    @PostMapping("/logout")
+    public ResponseEntity<Map<String, String>> logoutUser(HttpServletRequest request, HttpServletResponse response) {
+        Map<String, String> resp = new HashMap<>();
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        if(authentication != null){
-            SecurityContextHolder.clearContext();
-            response.put("status","success");
+        if (authentication != null) {
+            new SecurityContextLogoutHandler().logout(request, response, authentication);
+            resp.put("status", "success");
         } else {
-            response.put("status","error");
+            resp.put("status", "error");
         }
-        return ResponseEntity.ok(response);
+        return ResponseEntity.ok(resp);
     }
 
     @GetMapping("/check-session")
