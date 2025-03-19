@@ -18,4 +18,9 @@ public class ServiceUtilisateure {
         System.out.println("Saving user: " + utilisateur.getEmail());
         userRepository.save(utilisateur);
     }
+
+    public Utilisateur findByEmail(String email) {
+        return userRepository.findByEmail(email);
+    }
+
 }

@@ -22,6 +22,8 @@ export class AuthService {
     return this.http.post(`${this.apiurl}/logout`, {}).pipe(
       tap(() => {
         localStorage.removeItem('session');
+        localStorage.removeItem('nom');
+        localStorage.removeItem('prenom');
         this.router.navigate(['/login']);
       })
     );

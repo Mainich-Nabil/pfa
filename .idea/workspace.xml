@@ -5,21 +5,11 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="e6795e2c-4bd0-4246-9f0a-db77a7d4a9fa" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/front/front/src/app/auth/auth.guard.ts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/API/src/main/java/com/example/api/config/CorsConfig.java" beforeDir="false" afterPath="$PROJECT_DIR$/API/src/main/java/com/example/api/config/CorsConfig.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/API/src/main/java/com/example/api/config/SecurityConfig.java" beforeDir="false" afterPath="$PROJECT_DIR$/API/src/main/java/com/example/api/config/SecurityConfig.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/API/src/main/java/com/example/api/controlers/AuthController.java" beforeDir="false" afterPath="$PROJECT_DIR$/API/src/main/java/com/example/api/controlers/AuthController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/API/src/main/java/com/example/api/entities/Utilisateur.java" beforeDir="false" afterPath="$PROJECT_DIR$/API/src/main/java/com/example/api/entities/Utilisateur.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/API/src/main/java/com/example/api/services/CustomizedUserDetailsService.java" beforeDir="false" afterPath="$PROJECT_DIR$/API/src/main/java/com/example/api/services/CustomizedUserDetailsService.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/API/src/main/java/com/example/api/services/ServiceUtilisateure.java" beforeDir="false" afterPath="$PROJECT_DIR$/API/src/main/java/com/example/api/services/ServiceUtilisateure.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/API/src/main/resources/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/API/src/main/resources/application.properties" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/front/front/src/app/app.config.ts" beforeDir="false" afterPath="$PROJECT_DIR$/front/front/src/app/app.config.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/front/front/src/app/app.routes.ts" beforeDir="false" afterPath="$PROJECT_DIR$/front/front/src/app/app.routes.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/front/front/src/app/auth.service.ts" beforeDir="false" afterPath="$PROJECT_DIR$/front/front/src/app/auth.service.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/front/front/src/app/auth/login/login.component.html" beforeDir="false" afterPath="$PROJECT_DIR$/front/front/src/app/auth/login/login.component.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/front/front/src/app/auth/login/login.component.ts" beforeDir="false" afterPath="$PROJECT_DIR$/front/front/src/app/auth/login/login.component.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/front/front/src/app/auth/register/register.component.html" beforeDir="false" afterPath="$PROJECT_DIR$/front/front/src/app/auth/register/register.component.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/front/front/src/app/auth/register/register.component.ts" beforeDir="false" afterPath="$PROJECT_DIR$/front/front/src/app/auth/register/register.component.ts" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -37,7 +27,7 @@
     </option>
   </component>
   <component name="Git.Settings">
-    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/front" />
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
   <component name="JpbToolWindowState">
     <option name="isToolWindowVisible" value="false" />
@@ -59,7 +49,7 @@
     "RequestMappingsPanelWidth1": "75",
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "Spring Boot.ApiApplication.executor": "Run",
-    "git-widget-placeholder": "<unknown>",
+    "git-widget-placeholder": "main",
     "jdk.selected.JAVA_MODULE": "22",
     "kotlin-language-version-configured": "true",
     "last_opened_file_path": "C:/Users/USER/Documents/pfatrain/front/package.json",
@@ -74,7 +64,7 @@
     "vue.rearranger.settings.migration": "true"
   }
 }]]></component>
-  <component name="RunManager" selected="npm.Angular CLI Server (untitled)">
+  <component name="RunManager" selected="Spring Boot.ApiApplication">
     <configuration name="Angular Application (untitled)" type="JavascriptDebugType" uri="http://localhost:4200">
       <method v="2" />
     </configuration>
@@ -122,11 +112,23 @@
       <workItem from="1742084348783" duration="5826000" />
       <workItem from="1742139503668" duration="1306000" />
       <workItem from="1742140847855" duration="2374000" />
-      <workItem from="1742158271352" duration="7092000" />
+      <workItem from="1742158271352" duration="7401000" />
+      <workItem from="1742420866525" duration="6966000" />
     </task>
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="3" />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
   </component>
 </project>

@@ -6,6 +6,7 @@ import java.util.Map;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
+import jdk.jshell.execution.Util;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -29,13 +30,16 @@ public class AuthController {
     private final ServiceUtilisateure serviceUtilisateur;
     private final PasswordEncoder passwordEncoder;
     private final AuthenticationManager authenticationManager;
+    private final ServiceUtilisateure serviceUtilisateure;
 
     public AuthController(ServiceUtilisateure serviceUtilisateur,
                           PasswordEncoder passwordEncoder,
-                          AuthenticationManager authenticationManager) {
+                          AuthenticationManager authenticationManager,
+                           ServiceUtilisateure serviceUtilisateure) {
         this.serviceUtilisateur = serviceUtilisateur;
         this.passwordEncoder = passwordEncoder;
         this.authenticationManager = authenticationManager;
+        this.serviceUtilisateure = serviceUtilisateure;
     }
 
     @PostMapping("/register")
@@ -86,6 +90,13 @@ public class AuthController {
             );
             SecurityContextHolder.getContext().setAuthentication(authentication);
             response.put("status","success");
+
+
+            Utilisateur utilisateur1 = this.serviceUtilisateure.findByEmail(utilisateur.getEmail());
+            response.put("nom", utilisateur1.getNom());
+            response.put("prenom", utilisateur1.getPrenom());
+
+
             return ResponseEntity.ok(response);
         } catch (Exception e) {
             System.err.println("Login error: " + e.getMessage());

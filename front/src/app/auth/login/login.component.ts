@@ -28,12 +28,14 @@ export class LoginComponent {
       console.log('Attempting login with:', this.user.email);
       const response = await firstValueFrom(this.authService.login(this.user));
 
-      if (response.status === 'success') {
-        console.log('Login successful');
-        // Store session info if needed
-        localStorage.setItem('session', 'active');
 
-        // Navigate to home component as per your routing
+
+      if (response.status === 'success') {
+
+        localStorage.setItem('session', 'active');
+        localStorage.setItem('nom',response.nom);
+        localStorage.setItem('prenom',response.prenom);
+
         this.router.navigate(['/home']);
         this.message = '';
       } else {
