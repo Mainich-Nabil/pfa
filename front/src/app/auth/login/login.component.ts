@@ -38,8 +38,10 @@ export class LoginComponent {
 
         this.router.navigate(['/home']);
         this.message = '';
-      } else {
-        this.message = response.message || 'Login failed';
+      } else if (response.status === 'error') {
+
+        this.message = response.message;
+
       }
     } catch (error: any) {
       console.error('Login error:', error);

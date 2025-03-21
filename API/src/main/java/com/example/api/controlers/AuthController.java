@@ -7,11 +7,14 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
 import jdk.jshell.execution.Util;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -89,23 +92,30 @@ public class AuthController {
                     )
             );
             SecurityContextHolder.getContext().setAuthentication(authentication);
-            response.put("status","success");
-
+            response.put("status", "success");
 
             Utilisateur utilisateur1 = this.serviceUtilisateure.findByEmail(utilisateur.getEmail());
             response.put("nom", utilisateur1.getNom());
             response.put("prenom", utilisateur1.getPrenom());
 
-
             return ResponseEntity.ok(response);
+        } catch (BadCredentialsException e) {
+            System.err.println("Login error: " + e.getMessage());
+            response.put("status", "error");
+            response.put("message", "Mot de passe incorrect, veuillez vérifier le mot de passe ou l'email");
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(response);
+        } catch (UsernameNotFoundException e) {
+            System.err.println("Login error: " + e.getMessage());
+            response.put("status", "error");
+            response.put("message", "Utilisateur n'existe pas");
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(response);
         } catch (Exception e) {
             System.err.println("Login error: " + e.getMessage());
-            response.put("status","error");
-            response.put("message", e.getMessage());
-            return ResponseEntity.badRequest().body(response);
+            response.put("status", "error");
+            response.put("message", "Une erreur est survenue: " + e.getMessage());
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(response);
         }
     }
-
     @PostMapping("/logout")
     public ResponseEntity<Map<String, String>> logoutUser(HttpServletRequest request, HttpServletResponse response) {
         Map<String, String> resp = new HashMap<>();
