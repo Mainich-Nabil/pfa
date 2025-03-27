@@ -1,29 +1,38 @@
-import { Injectable } from '@angular/core';
-import { Router, CanActivate } from '@angular/router';
-import {AuthService} from '../auth.service';
-import { Observable, map, catchError, of } from 'rxjs';
+import {inject, Injectable} from '@angular/core';
+import {
+  Router,
+  ActivatedRouteSnapshot,
+  RouterStateSnapshot,
+  CanActivateFn,
+  CanActivate
+} from '@angular/router';
+import { AuthService } from '../auth.service';
 
 @Injectable({
   providedIn: 'root'
 })
-export class AuthGuard implements CanActivate {
+export class AuthGuardService implements CanActivate {
+  constructor(
+    private authService: AuthService,
+    private router: Router
+  ) {}
 
-  constructor(private authService: AuthService, private router: Router) {}
+  canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): boolean {
+    console.log('AuthGuard checking route:', state.url);
+    const token = this.authService.getToken();
 
-  canActivate(): Observable<boolean> {
-    return this.authService.checkSession().pipe(
-      map(response => {
-        if (response.status === 'success') {
-          return true;
-        } else {
-          this.router.navigate(['/login']);
-          return false;
-        }
-      }),
-      catchError(() => {
-        this.router.navigate(['/login']);
-        return of(false);
-      })
-    );
+    if (token) {
+      return true;
+    }
+
+    // Redirect to login page
+    this.router.navigate(['/login']);
+    return false;
   }
 }
+
+
+export const authGuard: CanActivateFn = (route: ActivatedRouteSnapshot, state: RouterStateSnapshot) => {
+  const authGuardService = inject(AuthGuardService);
+  return authGuardService.canActivate(route, state);
+};

@@ -25,14 +25,10 @@ public class Utilisateur {
     @Column(name = "Mot_De_Passe")
     private String motDePasse;
 
-    @OneToMany(mappedBy = "idUtilisateurFk")
+    @OneToMany(mappedBy = "utilisateur",cascade = CascadeType.ALL,orphanRemoval = true)
     private Set<com.example.api.entities.Contact> contacts = new LinkedHashSet<>();
 
-    @OneToMany(mappedBy = "idUtilisateurFk")
-    private Set<com.example.api.entities.EmailEnvoyer> emailEnvoyers = new LinkedHashSet<>();
 
-    @OneToMany(mappedBy = "idUtilisateurFk")
-    private Set<com.example.api.entities.EmailRecu> emailRecus = new LinkedHashSet<>();
 
     public Utilisateur(String nom, String prenom, String email, String motDePasse) {
         this.nom = nom;
@@ -94,21 +90,7 @@ public class Utilisateur {
         this.contacts = contacts;
     }
 
-    public Set<com.example.api.entities.EmailEnvoyer> getEmailEnvoyers() {
-        return emailEnvoyers;
-    }
 
-    public void setEmailEnvoyers(Set<com.example.api.entities.EmailEnvoyer> emailEnvoyers) {
-        this.emailEnvoyers = emailEnvoyers;
-    }
-
-    public Set<com.example.api.entities.EmailRecu> getEmailRecus() {
-        return emailRecus;
-    }
-
-    public void setEmailRecus(Set<com.example.api.entities.EmailRecu> emailRecus) {
-        this.emailRecus = emailRecus;
-    }
 
     public Utilisateur get() {
         return this;

@@ -1,8 +1,8 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
 import {Router, RouterOutlet} from '@angular/router';
-import {AuthGuard} from './auth/auth.guard';
+
 import {AuthService} from './auth.service';
-import {catchError, firstValueFrom, interval, of, Subject, switchMap, takeUntil} from 'rxjs';
+import { firstValueFrom, interval, of, Subject, switchMap, takeUntil} from 'rxjs';
 
 @Component({
   selector: 'app-root',
@@ -11,35 +11,33 @@ import {catchError, firstValueFrom, interval, of, Subject, switchMap, takeUntil}
   standalone: true,
   styleUrl: './app.component.css'
 })
-export class AppComponent implements OnInit,OnDestroy {
-
+export class AppComponent implements OnInit, OnDestroy {
   private stopPolling = new Subject<void>();
 
-  constructor(private authservice: AuthService, private router: Router) {
-  }
-  async ngOnInit() {
-    const responce = await firstValueFrom(this.authservice.checkSession());
+  constructor(private authService: AuthService, private router: Router) {}
 
-      try{
-        const response = await firstValueFrom(this.authservice.checkSession())
-        if(response.status !== 'success') {
-          this.router.navigate(['/login']);
-        }
-      }catch (error: any) {
+  async ngOnInit() {
+    try {
+      const isAuthenticated = await firstValueFrom(this.authService.checkSession());
+      if (!isAuthenticated) {
         this.router.navigate(['/login']);
       }
-      interval(300000)
-        .pipe(
-          switchMap(() => this.authservice.checkSession()),
-          catchError(() => of({status: 'error'})),
-          takeUntil(this.stopPolling)
-        )
-        .subscribe(async response => {
-          if(response.status !== 'success') {
-            this.router.navigate(['/login']);
-          }
-        });
+    } catch (error) {
+      this.router.navigate(['/login']);
+    }
+
+    interval(300000)
+      .pipe(
+        switchMap(() => this.authService.checkSession()),
+        takeUntil(this.stopPolling)
+      )
+      .subscribe(isAuthenticated => {
+        if (!isAuthenticated) {
+          this.router.navigate(['/login']);
+        }
+      });
   }
+
   ngOnDestroy() {
     this.stopPolling.next();
     this.stopPolling.complete();

@@ -5,7 +5,22 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="e6795e2c-4bd0-4246-9f0a-db77a7d4a9fa" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/API/src/main/java/com/example/api/Repositories/ContactRepository.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/API/src/main/java/com/example/api/controlers/ContactController.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/API/src/main/java/com/example/api/entities/Contact.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/API/src/main/java/com/example/api/entities/updaterequest.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/API/src/main/java/com/example/api/services/ServiceContact.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/API/src/main/java/com/example/api/util/JwtAuthenticationFilter.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/API/src/main/java/com/example/api/util/JwtKeyGenerator.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/API/src/main/java/com/example/api/util/JwtTokenUtil.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/API/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/API/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/API/src/main/java/com/example/api/Repositories/UserRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/API/src/main/java/com/example/api/Repositories/UserRepository.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/API/src/main/java/com/example/api/config/SecurityConfig.java" beforeDir="false" afterPath="$PROJECT_DIR$/API/src/main/java/com/example/api/config/SecurityConfig.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/API/src/main/java/com/example/api/controlers/AuthController.java" beforeDir="false" afterPath="$PROJECT_DIR$/API/src/main/java/com/example/api/controlers/AuthController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/API/src/main/java/com/example/api/entities/Utilisateur.java" beforeDir="false" afterPath="$PROJECT_DIR$/API/src/main/java/com/example/api/entities/Utilisateur.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/API/src/main/java/com/example/api/services/ServiceUtilisateure.java" beforeDir="false" afterPath="$PROJECT_DIR$/API/src/main/java/com/example/api/services/ServiceUtilisateure.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/API/src/main/resources/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/API/src/main/resources/application.properties" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -60,7 +75,7 @@
     &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   }
 }</component>
-  <component name="RunManager" selected="Spring Boot.ApiApplication">
+  <component name="RunManager" selected="npm.Angular CLI Server (untitled)">
     <configuration name="Angular Application (untitled)" type="JavascriptDebugType" uri="http://localhost:4200">
       <method v="2" />
     </configuration>
@@ -112,6 +127,12 @@
       <workItem from="1742420866525" duration="6966000" />
       <workItem from="1742597812464" duration="2703000" />
       <workItem from="1742742985723" duration="403000" />
+      <workItem from="1742767224831" duration="5050000" />
+      <workItem from="1742774613103" duration="509000" />
+      <workItem from="1742921525635" duration="3922000" />
+      <workItem from="1742938569663" duration="4282000" />
+      <workItem from="1742945492659" duration="15976000" />
+      <workItem from="1743033308263" duration="5177000" />
     </task>
     <servers />
   </component>

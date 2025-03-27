@@ -1,40 +1,34 @@
-import { Component } from '@angular/core';
-import { CommonModule} from '@angular/common';
-import {AuthService} from '../auth.service';
-import {Router} from '@angular/router';
-
-
+import { Component, OnInit } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { AuthService } from '../auth.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-home',
+  standalone: true,
   imports: [CommonModule],
   templateUrl: './home.component.html',
-  standalone: true,
   styleUrl: './home.component.css'
 })
-export class HomeComponent {
+export class HomeComponent implements OnInit {
+  user: { nom: string, prenom: string } | null = null;
 
+  constructor(
+    private authService: AuthService,
+    private router: Router
+  ) {}
 
-  constructor(private authService: AuthService,private router: Router ) {
+  ngOnInit() {
+
+    this.user = this.authService.getUserDetails();
+
   }
 
-  logout(){
-    this.authService.logout().subscribe({
-      next: () =>{
-        console.log('logged out');
-      },
-      error: (err) => {
-
-        this.router.navigate(['/login']);
-      }
-
-    });
+  logout() {
+    this.authService.logout().subscribe();
   }
-
-  user = {
-    nom : localStorage.getItem('nom') || '',
-    prenom: localStorage.getItem('prenom') || ''
+  addcontact(){
+    this.router.navigate(['/contact/add-contact'])
   }
-
 
 }
