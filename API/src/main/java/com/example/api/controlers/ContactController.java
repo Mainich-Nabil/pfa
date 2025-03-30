@@ -4,11 +4,9 @@ import com.example.api.entities.Contact;
 import com.example.api.entities.updaterequest;
 
 import com.example.api.services.ServiceUtilisateure;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -20,6 +18,7 @@ public class ContactController {
 
     private final ServiceUtilisateure serviceUtilisateure;
 
+    @Autowired
     public ContactController(ServiceUtilisateure serviceUtilisateure) {
 
         this.serviceUtilisateure = serviceUtilisateure;
@@ -81,6 +80,13 @@ public class ContactController {
             System.out.println(e);
         }
         return ResponseEntity.ok(response);
+    }
+
+    @GetMapping("/get-contacts")
+    public ResponseEntity<Set<Contact>> getContacts() {
+        Set<Contact> contacts = serviceUtilisateure.getContacts();
+        System.out.println("Fetched Contacts: " + contacts); // Debug log
+        return ResponseEntity.ok(contacts);
     }
 
 }

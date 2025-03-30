@@ -1,6 +1,7 @@
 package com.example.api.entities;
 
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 
 
@@ -65,6 +66,7 @@ public class Contact {
 
     @ManyToOne
     @JoinColumn(name = "id_utilisateur_fk", nullable = false)
+    @JsonBackReference
     private Utilisateur utilisateur;
 
 

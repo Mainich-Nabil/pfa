@@ -64,7 +64,7 @@ public class AuthController {
 
             // Generate JWT Token using JwtTokenUtil
             UserDetails userDetails = (UserDetails) authentication.getPrincipal();
-            String token = jwtTokenUtil.generateToken(userDetails); // Use JwtTokenUtil
+            String token = jwtTokenUtil.generateToken(userDetails);
 
             Utilisateur foundUser = serviceUtilisateur.findByEmail(utilisateur.getEmail());
 

@@ -1,4 +1,15 @@
 <h3>Bonjour : {{user?.nom}} {{user?.prenom}} </h3>
 <button (click)="logout()">logout</button>
 <button (click)="addcontact()">addcontact</button>
-
+<h2>Client List</h2>
+<ul>
+  <li *ngFor="let client of contacts">
+    <strong>
+      {{client.firstName }}
+      {{client.lastName}}
+    </strong> - {{client.email}}
+  </li>
+</ul>
+<div *ngIf="contacts.length === 0">
+  Aucun contact trouvé
+</div>

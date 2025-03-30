@@ -1,7 +1,8 @@
 import { Component } from '@angular/core';
-import { HttpClient, HttpHeaders } from '@angular/common/http'; // Import HttpHeaders
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+import * as XLSX from 'xlsx';
 
 @Component({
   selector: 'app-add-contact',
@@ -18,52 +19,129 @@ export class AddContactComponent {
   };
   message = '';
   status = '';
+  contactSet = new Set<any>();
+  fileName = '';
 
   constructor(private http: HttpClient) {}
 
-  SubmitContact() {
-    // Create a Set containing the contact data
-    const contactSet = new Set([this.contact]);
-    console.log('Contact data prepared for submission:', Array.from(contactSet)); // Debugging log
+  onFileChange(event: any) {
+    const target: DataTransfer = <DataTransfer>(event.target);
 
-    // Retrieve the token from localStorage
+    if (target.files.length !== 1) {
+      this.message = 'You can only upload one file at a time';
+      this.status = 'error';
+      return;
+    }
+
+    const file = target.files[0];
+    this.fileName = file.name;
+
+    const reader: FileReader = new FileReader();
+    reader.onload = (e: any) => {
+
+      const arrayBuffer = e.target.result;
+      const workbook = XLSX.read(arrayBuffer, { type: 'array' });
+
+      const firstSheetName = workbook.SheetNames[0];
+      const worksheet = workbook.Sheets[firstSheetName];
+
+
+      const excelData = XLSX.utils.sheet_to_json(worksheet);
+
+
+      const mappedData = excelData.map((row: any) => {
+        return {
+          firstName: row['nom'] || row['firstName'] || row['Nom'] || row['First Name'] || '',
+          lastName: row['penom'] || row['lastName'] || row['Prenom'] || row['Last Name'] || '',
+          email: row['email'] || row['Email'] || row['E-mail'] || ''
+        };
+      });
+
+
+      this.contactSet = new Set([...Array.from(this.contactSet), ...mappedData]);
+      this.message = `Successfully imported ${mappedData.length} contacts from Excel`;
+      this.status = 'success';
+    };
+
+
+    reader.readAsArrayBuffer(file);
+  }
+
+  addCurrentContact() {
+    if (!this.contact.firstName || !this.contact.email) {
+      this.message = 'First name and email are required';
+      this.status = 'error';
+      return;
+    }
+
+    this.contactSet.add({...this.contact});
+    this.message = 'Contact added to the list';
+    this.status = 'success';
+
+    // Clear the form
+    this.contact = {
+      firstName: '',
+      lastName: '',
+      email: ''
+    };
+  }
+
+  SubmitContact() {
+
+    if (this.contact.firstName || this.contact.lastName || this.contact.email) {
+      this.addCurrentContact();
+    }
+
+    if (this.contactSet.size === 0) {
+      this.message = 'No contacts to submit';
+      this.status = 'error';
+      return;
+    }
+
     const token = localStorage.getItem('token');
-    console.log('Token retrieved from localStorage:', token); // Debugging log
+    
 
     if (!token) {
-      console.error('No token found in localStorage. Please log in again.'); // Debugging log
       this.status = 'error';
       this.message = 'No authentication token found. Please log in again.';
       return;
     }
 
-    // Create headers with the Authorization token
     const headers = new HttpHeaders({
       'Content-Type': 'application/json',
       Authorization: `Bearer ${token}`
     });
-    console.log('Headers created for HTTP request:', headers); // Debugging log
 
-    // Make the HTTP POST request with the headers
-    this.http.post<any>('http://localhost:8080/contact/add', Array.from(contactSet), { headers })
+    this.http.post<any>('http://localhost:8080/contact/add', Array.from(this.contactSet), { headers })
       .subscribe({
         next: (response) => {
-          console.log('HTTP request successful. Response:', response); // Debugging log
           this.status = response.status || 'success';
-          this.message = response.message || 'Contact added successfully.';
+          this.message = response.message || `${this.contactSet.size} contacts added successfully.`;
 
-          // Reset the form
+
           this.contact = {
             firstName: '',
             lastName: '',
             email: ''
           };
+          this.contactSet.clear();
+          this.fileName = '';
         },
         error: (err) => {
-          console.error('HTTP request failed. Error response:', err); // Debugging log
           this.status = 'error';
-          this.message = err.message || 'An error occurred while submitting the contact.';
+          this.message = err.message || 'An error occurred while submitting contacts.';
         }
       });
+  }
+
+  clearContacts() {
+    this.contactSet.clear();
+    this.fileName = '';
+    this.message = 'All imported contacts cleared';
+    this.status = 'success';
+  }
+
+  get contactCount() {
+    return this.contactSet.size;
   }
 }

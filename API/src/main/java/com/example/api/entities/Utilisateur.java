@@ -1,5 +1,6 @@
 package com.example.api.entities;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 
 import java.util.LinkedHashSet;
@@ -26,6 +27,7 @@ public class Utilisateur {
     private String motDePasse;
 
     @OneToMany(mappedBy = "utilisateur",cascade = CascadeType.ALL,orphanRemoval = true)
+    @JsonManagedReference
     private Set<com.example.api.entities.Contact> contacts = new LinkedHashSet<>();
 
 

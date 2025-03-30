@@ -5,22 +5,14 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="e6795e2c-4bd0-4246-9f0a-db77a7d4a9fa" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/API/src/main/java/com/example/api/Repositories/ContactRepository.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/API/src/main/java/com/example/api/controlers/ContactController.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/API/src/main/java/com/example/api/entities/Contact.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/API/src/main/java/com/example/api/entities/updaterequest.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/API/src/main/java/com/example/api/services/ServiceContact.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/API/src/main/java/com/example/api/util/JwtAuthenticationFilter.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/API/src/main/java/com/example/api/util/JwtKeyGenerator.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/API/src/main/java/com/example/api/util/JwtTokenUtil.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/API/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/API/pom.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/API/src/main/java/com/example/api/Repositories/UserRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/API/src/main/java/com/example/api/Repositories/UserRepository.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/API/src/main/java/com/example/api/config/SecurityConfig.java" beforeDir="false" afterPath="$PROJECT_DIR$/API/src/main/java/com/example/api/config/SecurityConfig.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/API/src/main/java/com/example/api/controlers/AuthController.java" beforeDir="false" afterPath="$PROJECT_DIR$/API/src/main/java/com/example/api/controlers/AuthController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/API/src/main/java/com/example/api/controlers/ContactController.java" beforeDir="false" afterPath="$PROJECT_DIR$/API/src/main/java/com/example/api/controlers/ContactController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/API/src/main/java/com/example/api/entities/Contact.java" beforeDir="false" afterPath="$PROJECT_DIR$/API/src/main/java/com/example/api/entities/Contact.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/API/src/main/java/com/example/api/entities/Utilisateur.java" beforeDir="false" afterPath="$PROJECT_DIR$/API/src/main/java/com/example/api/entities/Utilisateur.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/API/src/main/java/com/example/api/services/ServiceUtilisateure.java" beforeDir="false" afterPath="$PROJECT_DIR$/API/src/main/java/com/example/api/services/ServiceUtilisateure.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/API/src/main/resources/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/API/src/main/resources/application.properties" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/API/src/main/java/com/example/api/services/ServiceContact.java" beforeDir="false" afterPath="$PROJECT_DIR$/API/src/main/java/com/example/api/services/ServiceContact.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/API/src/main/java/com/example/api/util/JwtKeyGenerator.java" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -32,8 +24,8 @@
       <list>
         <option value="com.intellij.jpb.JpaEntity" />
         <option value="Interface" />
-        <option value="TypeScript File" />
         <option value="Class" />
+        <option value="TypeScript File" />
       </list>
     </option>
   </component>
@@ -132,7 +124,8 @@
       <workItem from="1742921525635" duration="3922000" />
       <workItem from="1742938569663" duration="4282000" />
       <workItem from="1742945492659" duration="15976000" />
-      <workItem from="1743033308263" duration="5177000" />
+      <workItem from="1743033308263" duration="5654000" />
+      <workItem from="1743299913253" duration="10298000" />
     </task>
     <servers />
   </component>

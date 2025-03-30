@@ -16,8 +16,24 @@
       <input type="email" [(ngModel)]="contact.email" name="email" required>
     </div>
 
-    <button type="submit">Add Contact</button>
+    <button type="button" (click)="addCurrentContact()">Add to List</button>
 
-    <p *ngIf="message" class="message">{{message}}</p>
+    <div class="excel-upload">
+      <h3>Import Contacts from Excel</h3>
+      <div class="form-group">
+        <label>Select Excel File:</label>
+        <input type="file" (change)="onFileChange($event)" accept=".xlsx, .xls" />
+      </div>
+      <p *ngIf="fileName" class="file-name">Selected file: {{ fileName }}</p>
+    </div>
+
+    <div *ngIf="contactCount > 0" class="contacts-preview">
+      <h3>Contacts to Submit ({{ contactCount }})</h3>
+      <button type="button" (click)="clearContacts()">Clear All</button>
+    </div>
+
+    <button type="submit" [disabled]="contactCount === 0 && (!contact.firstName || !contact.email)">Submit All Contacts</button>
+
+    <p *ngIf="message" class="message" [ngClass]="status">{{ message }}</p>
   </form>
 </div>
