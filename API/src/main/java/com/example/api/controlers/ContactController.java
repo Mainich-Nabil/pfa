@@ -46,15 +46,18 @@ public class ContactController {
     }
 
     @PostMapping("/delete")
-    public ResponseEntity<Map<String,String>> DeleteContact(@RequestBody String email) {
+    public ResponseEntity<Map<String,String>> DeleteContact(@RequestBody Contact contact) {
         Map<String,String> response = new HashMap<>();
+        String email = contact.getEmail();
         boolean isdeleted = false;
         try {
             isdeleted = serviceUtilisateure.deleteContactByEmail(email);
             if (isdeleted){
                 response.put("status", "success");
+                response.put("message", "Contact deleted");
             }else {
                 response.put("status", "error");
+                response.put("message", "Contact not deleted");
             }
 
         }catch (Exception e){
@@ -65,15 +68,17 @@ public class ContactController {
     }
 
     @PostMapping("/update")
-    public ResponseEntity<Map<String,String>> UpdateContact(@RequestBody updaterequest request) {
+    public ResponseEntity<Map<String,String>> UpdateContact(@RequestBody Contact contact) {
         Map<String,String> response = new HashMap<>();
         boolean isupdated = false;
         try {
-            isupdated = serviceUtilisateure.updateContact(request.getEmail(),request.getContact());
+            isupdated = serviceUtilisateure.updateContact(contact);
             if (isupdated){
                 response.put("status", "success");
+                response.put("message", "Contact updated successfully");
             }else {
                 response.put("status", "failed");
+                response.put("message", "Failed to update contact");
             }
         }catch (Exception e){
             response.put("status", "error");

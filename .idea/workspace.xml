@@ -5,9 +5,21 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="e6795e2c-4bd0-4246-9f0a-db77a7d4a9fa" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/.idea/uiDesigner.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/API/src/main/java/com/example/api/DTO/CategorieDto.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/API/src/main/java/com/example/api/DTO/ContactDto.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/API/src/main/java/com/example/api/Repositories/CategorieRepository.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/API/src/main/java/com/example/api/controlers/CategorieController.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/API/src/main/java/com/example/api/entities/Categorie.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/API/src/main/java/com/example/api/services/ServiceCategorie.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/compiler.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/compiler.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/API/src/main/java/com/example/api/services/CustomizedUserDetailsService.java" beforeDir="false" afterPath="$PROJECT_DIR$/API/src/main/java/com/example/api/services/CustomizedUserDetailsService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/API/src/main/resources/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/API/src/main/resources/application.properties" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/API/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/API/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/API/src/main/java/com/example/api/Repositories/ContactRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/API/src/main/java/com/example/api/Repositories/ContactRepository.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/API/src/main/java/com/example/api/config/SecurityConfig.java" beforeDir="false" afterPath="$PROJECT_DIR$/API/src/main/java/com/example/api/config/SecurityConfig.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/API/src/main/java/com/example/api/controlers/ContactController.java" beforeDir="false" afterPath="$PROJECT_DIR$/API/src/main/java/com/example/api/controlers/ContactController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/API/src/main/java/com/example/api/entities/Contact.java" beforeDir="false" afterPath="$PROJECT_DIR$/API/src/main/java/com/example/api/entities/Contact.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/API/src/main/java/com/example/api/services/ServiceUtilisateure.java" beforeDir="false" afterPath="$PROJECT_DIR$/API/src/main/java/com/example/api/services/ServiceUtilisateure.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -18,9 +30,9 @@
     <option name="RECENT_TEMPLATES">
       <list>
         <option value="com.intellij.jpb.JpaEntity" />
+        <option value="TypeScript File" />
         <option value="Interface" />
         <option value="Class" />
-        <option value="TypeScript File" />
       </list>
     </option>
   </component>
@@ -39,29 +51,30 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "RequestMappingsPanelOrder0": "0",
-    "RequestMappingsPanelOrder1": "1",
-    "RequestMappingsPanelWidth0": "75",
-    "RequestMappingsPanelWidth1": "75",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "Spring Boot.ApiApplication.executor": "Run",
-    "git-widget-placeholder": "main",
-    "jdk.selected.JAVA_MODULE": "22",
-    "kotlin-language-version-configured": "true",
-    "last_opened_file_path": "C:/Users/USER/Documents/pfatrain",
-    "node.js.detected.package.eslint": "true",
-    "node.js.detected.package.tslint": "true",
-    "node.js.selected.package.eslint": "(autodetect)",
-    "node.js.selected.package.tslint": "(autodetect)",
-    "nodejs_interpreter_path": "node",
-    "nodejs_package_manager_path": "npm",
-    "npm.Angular CLI Server (untitled).executor": "Run",
-    "ts.external.directory.path": "C:\\Users\\USER\\Documents\\pfatrain\\front\\node_modules\\typescript\\lib",
-    "vue.rearranger.settings.migration": "true"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;RequestMappingsPanelOrder0&quot;: &quot;0&quot;,
+    &quot;RequestMappingsPanelOrder1&quot;: &quot;1&quot;,
+    &quot;RequestMappingsPanelWidth0&quot;: &quot;75&quot;,
+    &quot;RequestMappingsPanelWidth1&quot;: &quot;75&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
+    &quot;Spring Boot.ApiApplication.executor&quot;: &quot;Run&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;main&quot;,
+    &quot;jdk.selected.JAVA_MODULE&quot;: &quot;22&quot;,
+    &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
+    &quot;last_opened_file_path&quot;: &quot;C:/Users/USER/Documents/pfatrain&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;nodejs_interpreter_path&quot;: &quot;node&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;npm.Angular CLI Server (untitled).executor&quot;: &quot;Run&quot;,
+    &quot;ts.external.directory.path&quot;: &quot;C:\\Users\\USER\\Documents\\pfatrain\\front\\node_modules\\typescript\\lib&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   }
-}]]></component>
+}</component>
   <component name="RunManager" selected="Spring Boot.ApiApplication">
     <configuration name="Angular Application (untitled)" type="JavascriptDebugType" uri="http://localhost:4200">
       <method v="2" />
@@ -123,7 +136,12 @@
       <workItem from="1743299913253" duration="10298000" />
       <workItem from="1743374444917" duration="136000" />
       <workItem from="1744479666293" duration="55000" />
-      <workItem from="1745071550704" duration="563000" />
+      <workItem from="1745071550704" duration="15626000" />
+      <workItem from="1745394239797" duration="19000" />
+      <workItem from="1745397998581" duration="98000" />
+      <workItem from="1745524255863" duration="5611000" />
+      <workItem from="1745609820261" duration="3842000" />
+      <workItem from="1745676446489" duration="494000" />
     </task>
     <servers />
   </component>

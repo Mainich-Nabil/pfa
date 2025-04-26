@@ -88,7 +88,7 @@ public class ServiceUtilisateure {
     public boolean deleteContactByEmail(String email) {
         Utilisateur utilisateur = getAuthenticatedUser();
         if (utilisateur != null) {
-            Contact contact = contactRepository.findByEmail(email);
+            Contact contact = contactRepository.findByEmailAndUtilisateurId(email,utilisateur.getId());
             if (contact != null) {
                 utilisateur.getContacts().remove(contact);
                 userRepository.save(utilisateur);
@@ -99,10 +99,10 @@ public class ServiceUtilisateure {
         return false;
     }
 
-    public boolean updateContact(String email,Contact newContact) {
+    public boolean updateContact(Contact newContact) {
         Utilisateur utilisateur = getAuthenticatedUser();
         if (utilisateur != null) {
-            Contact contact = contactRepository.findByEmail(email);
+            Contact contact = contactRepository.findByEmail(newContact.getEmail());
             if (contact != null) {
                 contact.setEmail(newContact.getEmail());
                 contact.setFirstName(newContact.getFirstName());

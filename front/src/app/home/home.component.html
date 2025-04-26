@@ -1,6 +1,7 @@
 <h3>Bonjour : {{user?.nom}} {{user?.prenom}} </h3>
 <button (click)="logout()">logout</button>
 <button (click)="addcontact()">addcontact</button>
+<p *ngIf="message" >{{message}}</p>
 <h2>Client List</h2>
 <ul>
   <li *ngFor="let client of contacts">
@@ -8,6 +9,10 @@
       {{client.firstName }}
       {{client.lastName}}
     </strong> - {{client.email}}
+
+
+    <button (click)="updatecontact(client)" >update</button>
+    <button (click)="deletecontact(client)" >delete</button>
   </li>
 </ul>
 <div *ngIf="contacts.length === 0">
