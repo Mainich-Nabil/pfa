@@ -5,13 +5,15 @@ import { Router } from '@angular/router';
 import {HttpClient, HttpHeaders} from '@angular/common/http';
 
 import {ContactService} from '../conatct.service';
+import {CategorieService} from '../categorie.service';
 import {Observable} from 'rxjs';
 import {Contact} from './Contact';
+import {FormsModule} from '@angular/forms';
 
 @Component({
   selector: 'app-home',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, FormsModule],
   templateUrl: './home.component.html',
   styleUrl: './home.component.css'
 })
@@ -25,7 +27,8 @@ export class HomeComponent implements OnInit {
     private contactService: ContactService,
     private authService: AuthService,
     private router: Router,
-    private http: HttpClient
+    private http: HttpClient,
+    private categorieService: CategorieService
   ) {}
 
   ngOnInit() {
@@ -49,6 +52,7 @@ export class HomeComponent implements OnInit {
   addcontact(){
     this.router.navigate(['/contact/add-contact'])
   }
+
 
   updatecontact(contact: Contact){
     sessionStorage.setItem("contact", JSON.stringify(contact));
@@ -76,7 +80,7 @@ export class HomeComponent implements OnInit {
         if(response.status === 'success'){
           setTimeout(() => {
             window.location.reload();
-          },1500);
+          },500);
         }
 
       },
@@ -86,5 +90,47 @@ export class HomeComponent implements OnInit {
       }
     })
   }
+
+
+  showCategoryForm = false;
+  newCategory: any = {
+    nom: '',
+    description: ''
+  };
+
+  toggleCategoryForm() {
+    this.showCategoryForm = !this.showCategoryForm;
+    if (!this.showCategoryForm) {
+      this.resetCategoryForm();
+    }
+  }
+
+  resetCategoryForm() {
+    this.newCategory = {
+      nom: '',
+      description: ''
+    };
+  }
+
+  createCategory() {
+    if (!this.newCategory.nom.trim()) return;
+
+    this.categorieService.createCategory(this.newCategory).subscribe({
+      next: (createdCategory) => {
+        // Handle success (update your categories list if needed)
+        this.message = `Category "${createdCategory.nom}" created successfully!`;
+        this.resetCategoryForm();
+        this.showCategoryForm = false;
+
+        // If you maintain a categories list in component:
+        // this.categories.push(createdCategory);
+      },
+      error: (err) => {
+        this.message = 'Error creating category: ' + (err.error?.message || '');
+        console.error('Category creation failed', err);
+      }
+    });
+  }
+
 
 }
