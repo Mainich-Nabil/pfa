@@ -10,6 +10,7 @@ import {Observable} from 'rxjs';
 import {Contact} from './Contact';
 import {FormsModule} from '@angular/forms';
 
+
 @Component({
   selector: 'app-home',
   standalone: true,
