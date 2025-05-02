@@ -14,4 +14,6 @@ public interface CategorieRepository extends JpaRepository<Categorie, Long> {
 
     boolean existsByNom(String name);
     Categorie findByNom(String name);
+
+    Categorie findByNomAndUtilisateurId(String nom, Integer id);
 }

@@ -1,14 +1,17 @@
 package com.example.api.controlers;
 
+import com.example.api.DTO.ContactDto;
 import com.example.api.entities.Contact;
 import com.example.api.entities.updaterequest;
 
+import com.example.api.services.ServiceContact;
 import com.example.api.services.ServiceUtilisateure;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
@@ -17,11 +20,13 @@ import java.util.Set;
 public class ContactController {
 
     private final ServiceUtilisateure serviceUtilisateure;
+    private final ServiceContact serviceContact;
 
     @Autowired
-    public ContactController(ServiceUtilisateure serviceUtilisateure) {
+    public ContactController(ServiceUtilisateure serviceUtilisateure, ServiceContact serviceContact) {
 
         this.serviceUtilisateure = serviceUtilisateure;
+        this.serviceContact = serviceContact;
     }
 
     @PostMapping("/add")
@@ -87,11 +92,55 @@ public class ContactController {
         return ResponseEntity.ok(response);
     }
 
-    @GetMapping("/get-contacts")
-    public ResponseEntity<Set<Contact>> getContacts() {
-        Set<Contact> contacts = serviceUtilisateure.getContacts();
-        System.out.println("Fetched Contacts: " + contacts); // Debug log
-        return ResponseEntity.ok(contacts);
+    @PostMapping("/add-to-categorie/{conName}")
+    public ResponseEntity<Map<String,String>> AddToCategory(@PathVariable String conName, @RequestBody String catname){
+        Map<String,String> response = new HashMap<>();
+        try {
+            boolean isadded = serviceContact.addCategorieToContact(conName,catname);
+            if (isadded){
+                response.put("status", "success");
+                response.put("message", "Categorie added");
+
+            }else{
+                response.put("status", "failed");
+                response.put("message", "Categorie not added");
+            }
+        }catch (Exception e){
+            response.put("status", "error");
+            System.out.println(e);
+        }
+        return ResponseEntity.ok(response);
     }
+
+    @GetMapping("/get-contacts")
+    public ResponseEntity<Set<ContactDto>> getContacts() {
+        Set<Contact> contacts = serviceUtilisateure.getContacts();
+        Set<ContactDto> contactDtos = new HashSet<>();
+
+        for (Contact contact : contacts) {
+            ContactDto contactDto = ContactDto.fromEntity(contact);
+            contactDtos.add(contactDto);
+
+        }
+
+        return ResponseEntity.ok(contactDtos);
+    }
+
+    @GetMapping("/get-contacts/{catName}")
+    public ResponseEntity<Set<ContactDto>> getContact(@PathVariable String catName){
+        Set<ContactDto> res = new HashSet<>();
+
+        try {
+            res = serviceContact.getContactByCategorie(catName);
+        }catch (Exception e){
+            System.out.println("error"+e.getMessage());
+        }
+
+        return ResponseEntity.ok(res);
+    }
+
+
+
+
 
 }

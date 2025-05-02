@@ -51,8 +51,8 @@ export class AddContactComponent {
 
       const mappedData = excelData.map((row: any) => {
         return {
-          firstName: row['nom'] || row['firstName'] || row['Nom'] || row['First Name'] || '',
-          lastName: row['penom'] || row['lastName'] || row['Prenom'] || row['Last Name'] || '',
+          firstName: row['prenom'] || row['firstName'] || row['PreNom'] || row['First Name'] || '',
+          lastName: row['nom'] || row['lastName'] || row['nom'] || row['Last Name'] || '',
           email: row['email'] || row['Email'] || row['E-mail'] || ''
         };
       });
@@ -99,7 +99,7 @@ export class AddContactComponent {
     }
 
     const token = localStorage.getItem('token');
-    
+
 
     if (!token) {
       this.status = 'error';

@@ -1,6 +1,10 @@
 package com.example.api.entities;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
+
 import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
@@ -21,7 +25,14 @@ public class Categorie {
     private String description;
 
     @ManyToMany(mappedBy = "categories", fetch = FetchType.LAZY)
+    @OnDelete(action = OnDeleteAction.CASCADE)
     private Set<Contact> contacts = new HashSet<>();
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "id_utilisateur_fk",referencedColumnName = "Id_Utilisateur", nullable = false)
+    @JsonBackReference
+    private Utilisateur utilisateur;
+
 
     // Constructeurs
     public Categorie() {
@@ -39,6 +50,14 @@ public class Categorie {
 
     public String getNom() {
         return nom;
+    }
+
+    public Utilisateur getUtilisateur() {
+        return utilisateur;
+    }
+
+    public void setUtilisateur(Utilisateur utilisateur) {
+        this.utilisateur = utilisateur;
     }
 
     public String getDescription() {

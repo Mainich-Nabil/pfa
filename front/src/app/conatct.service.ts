@@ -16,7 +16,7 @@ export class ContactService {
     private authService: AuthService
   ) {}
 
-  getContacts(): Observable<Contact[]> {
+  headers(){
     const token = this.authService.getToken();
 
 
@@ -25,7 +25,18 @@ export class ContactService {
       'Authorization': `Bearer ${token}`
     });
 
-
-    return this.http.get<Contact[]>(`${this.url}/get-contacts`, { headers });
+    return {headers};
   }
+
+  getContacts(): Observable<Contact[]> {
+    return this.http.get<Contact[]>(`${this.url}/get-contacts`, this.headers());
+  }
+
+  getContactsBycat(catName: string){
+    return this.http.get<Contact[]>(`${this.url}/get-contacts/${catName}`,this.headers());
+  }
+
+
+
+
 }

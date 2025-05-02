@@ -30,6 +30,9 @@ public class Utilisateur {
     @JsonManagedReference
     private Set<com.example.api.entities.Contact> contacts = new LinkedHashSet<>();
 
+    @OneToMany(mappedBy = "utilisateur",cascade = CascadeType.ALL,orphanRemoval = true)
+    @JsonManagedReference
+    private Set<Categorie> categories = new LinkedHashSet<>();
 
 
     public Utilisateur(String nom, String prenom, String email, String motDePasse) {
@@ -92,7 +95,13 @@ public class Utilisateur {
         this.contacts = contacts;
     }
 
+    public Set<Categorie> getCategories() {
+        return categories;
+    }
 
+    public void setCategories(Set<Categorie> categories) {
+        this.categories = categories;
+    }
 
     public Utilisateur get() {
         return this;

@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, HostListener, OnInit} from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { AuthService } from '../auth.service';
 import { Router } from '@angular/router';
@@ -7,8 +7,9 @@ import {HttpClient, HttpHeaders} from '@angular/common/http';
 import {ContactService} from '../conatct.service';
 import {CategorieService} from '../categorie.service';
 import {Observable} from 'rxjs';
-import {Contact} from './Contact';
+import {Categorie, Contact} from './Contact';
 import {FormsModule} from '@angular/forms';
+import {fadeAnimation} from '../animations';
 
 
 @Component({
@@ -16,11 +17,14 @@ import {FormsModule} from '@angular/forms';
   standalone: true,
   imports: [CommonModule, FormsModule],
   templateUrl: './home.component.html',
-  styleUrl: './home.component.css'
+  styleUrl: './home.component.css',
+  animations: [fadeAnimation]
 })
 export class HomeComponent implements OnInit {
   user: { nom: string, prenom: string } | null = null;
   contacts: Contact[] = [];
+  selectedCategory: string = '';
+  categories: Categorie[] = [];
   status: string = '';
   message: string = '';
 
@@ -36,9 +40,13 @@ export class HomeComponent implements OnInit {
 
     this.user = this.authService.getUserDetails();
 
-    this.contactService.getContacts().subscribe({
-      next: (contacts: Contact[]) => {
-        this.contacts = contacts;
+
+    this.getContacts();
+
+    this.categorieService.getCategories().subscribe({
+      next: (categories: Categorie[]) => {
+        this.categories = categories;
+        console.log(this.categories);
       },
       error: (error: any) => {
         console.log(error);
@@ -47,11 +55,44 @@ export class HomeComponent implements OnInit {
 
   }
 
+  getContacts(){
+    this.contactService.getContacts().subscribe({
+      next: (contacts: Contact[]) => {
+        this.contacts = contacts;
+      },
+      error: (error: any) => {
+        console.log(error);
+      }
+    })
+  }
+
+  getContactsByCategory(category: string){
+    this.contactService.getContactsBycat(category).subscribe({
+      next: (contacts: Contact[]) => {
+        this.contacts = contacts;
+      },
+      error: (error: any) => {
+        console.log(error);
+      }
+    })
+  }
+
+  applyCategoryFilter(){
+    if(this.selectedCategory !== ''){
+      this.getContactsByCategory(this.selectedCategory);
+    }else {
+      this.getContacts();
+    }
+  }
+
   logout() {
     this.authService.logout().subscribe();
   }
   addcontact(){
     this.router.navigate(['/contact/add-contact'])
+  }
+  ManageCats(){
+    this.router.navigate(['category-Management'])
   }
 
 
@@ -117,14 +158,20 @@ export class HomeComponent implements OnInit {
     if (!this.newCategory.nom.trim()) return;
 
     this.categorieService.createCategory(this.newCategory).subscribe({
-      next: (createdCategory) => {
-        // Handle success (update your categories list if needed)
-        this.message = `Category "${createdCategory.nom}" created successfully!`;
+      next: (responce) => {
+
+        this.status = responce.status;
+        this.message = responce.message;
         this.resetCategoryForm();
         this.showCategoryForm = false;
+        if(responce.status === 'success'){
+          setTimeout(() => {
+            window.location.reload();
+          },500);
+        }
 
-        // If you maintain a categories list in component:
-        // this.categories.push(createdCategory);
+
+
       },
       error: (err) => {
         this.message = 'Error creating category: ' + (err.error?.message || '');
@@ -132,6 +179,43 @@ export class HomeComponent implements OnInit {
       }
     });
   }
+
+  // Stocke l'email du client dont le menu est ouvert
+  selectedDropdownClientEmail: string | null = null;
+
+// Gestion du clic sur le bouton "Category"
+  toggleDropdown(client: any): void {
+    this.selectedDropdownClientEmail =
+      this.selectedDropdownClientEmail === client.email ? null : client.email;
+  }
+
+// Ferme le menu si on clique en dehors
+  @HostListener('document:click', ['$event'])
+  onDocumentClick(event: MouseEvent): void {
+    const target = event.target as HTMLElement;
+    if (!target.closest('.dropdown-toggle')) {
+      this.selectedDropdownClientEmail = null;
+    }
+  }
+
+  selectCategory(client: any, nomCat: string) {
+
+    this.categorieService.addcontacttocat(client, nomCat).subscribe({
+      next: (responce) => {
+        this.status = responce.status;
+        this.message = responce.message;
+
+        if(responce.status === 'success'){
+          setTimeout(() => {
+            window.location.reload();
+          },500)
+        }
+
+      }
+    })
+  }
+
+
 
 
 }

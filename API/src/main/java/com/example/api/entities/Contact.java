@@ -47,7 +47,8 @@ public class Contact {
         this.email = email;
     }
 
-    // Getters
+
+
     public Long getIdContact() {
         return idContact;
     }
@@ -72,7 +73,7 @@ public class Contact {
         return categories;
     }
 
-    // Setters
+
     public void setIdContact(Long idContact) {
         this.idContact = idContact;
     }
@@ -97,7 +98,7 @@ public class Contact {
         this.categories = categories;
     }
 
-    // equals() et hashCode() basés sur l'email
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -111,7 +112,7 @@ public class Contact {
         return Objects.hash(email);
     }
 
-    // toString() (optionnel mais recommandé pour le débogage)
+
     @Override
     public String toString() {
         return "Contact{" +

@@ -2,30 +2,34 @@ package com.example.api.services;
 
 
 import com.example.api.DTO.ContactDto;
+import com.example.api.DTO.categorieUpdateDto;
 import com.example.api.Repositories.CategorieRepository;
+import com.example.api.Repositories.ContactRepository;
 import com.example.api.entities.Categorie;
 import com.example.api.entities.Contact;
+import com.example.api.entities.Utilisateur;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 @Service
 public class ServiceCategorie {
+
+    private final ContactRepository contactRepository;
     CategorieRepository categorieRepository;
     ContactDto contactDto = new ContactDto();
     ServiceContact serviceContact;
+    ServiceUtilisateure serviceUtilisateur;
 
     @Autowired
     ServiceCategorie(CategorieRepository categorieRepository,
-                     ServiceContact serviceContact) {
+                     ServiceContact serviceContact, ServiceUtilisateure serviceUtilisateur, ContactRepository contactRepository) {
         this.categorieRepository = categorieRepository;
         this.serviceContact = serviceContact;
-
+        this.serviceUtilisateur = serviceUtilisateur;
+        this.contactRepository = contactRepository;
     }
 
     public boolean createCategorie(Categorie cat) {
@@ -37,99 +41,148 @@ public class ServiceCategorie {
     }
 
     public boolean deleteCategorie(String nom) {
-        if (categorieRepository.existsByNom(nom)) {
-            categorieRepository.delete(categorieRepository.findByNom(nom));
-            return true;
+        Utilisateur utilisateur = serviceUtilisateur.getAuthenticatedUser();
+        Optional<Categorie> categorie = utilisateur.getCategories().stream()
+                .filter(cat -> cat.getNom().equals(nom))
+                .findFirst();
+        if (categorie.isEmpty()){
+            return false;
         }
-        return false;
-    }
+        Categorie cat = categorie.get();
 
-    public boolean updateCategorie(String oldName, Categorie newCat) {
-        if (categorieRepository.existsByNom(oldName)) {
-            Categorie oldCategorie = categorieRepository.findByNom(oldName);
-            categorieRepository.delete(oldCategorie);
-            categorieRepository.save(newCat);
-            return true;
-        }
-        return false;
-
-    }
-
-    public List<ContactDto> getContacts(String name) {
-        List<Contact> contacts = categorieRepository.findContactsByCategoryName(name);
-        List<ContactDto> contactDtos = new ArrayList<>();
+        Set<Contact> contacts = utilisateur.getContacts();
         for (Contact contact : contacts) {
-            contactDtos.add(contactDto.fromEntity(contact));
+            contact.getCategories().remove(cat);
         }
-        return contactDtos;
+
+        utilisateur.getCategories().remove(cat);
+        serviceUtilisateur.save(utilisateur);
+
+
+        categorieRepository.delete(cat);
+        categorieRepository.flush();
+        return true;
+
+
     }
+
+    public boolean deleteContactFromCat(String catName,String conEmail){
+        Utilisateur utilisateur = serviceUtilisateur.getAuthenticatedUser();
+        Optional<Categorie> categorie =  utilisateur.getCategories().stream()
+                .filter(cat -> cat.getNom().equals(catName))
+                .findFirst();
+        if (categorie.isEmpty()){
+            return false;
+        }
+        Categorie cat = categorie.get();
+        Optional<Contact> contact =  utilisateur.getContacts().stream()
+                .filter(con -> con.getEmail().equals(conEmail))
+                .findFirst();
+        if (contact.isEmpty()){
+            return false;
+        }
+        Contact con = contact.get();
+        cat.getContacts().remove(con);
+        con.getCategories().remove(cat);
+
+        contactRepository.save(con);
+        categorieRepository.save(cat);
+
+        categorieRepository.flush();
+        return true;
+
+    }
+
+    public boolean updateCategorie(String oldName, categorieUpdateDto dto) {
+        Utilisateur utilisateur = serviceUtilisateur.getAuthenticatedUser();
+        Optional<Categorie> cat = utilisateur.getCategories().stream()
+                .filter(categorie -> oldName.equals(categorie.getNom()))
+                .findFirst();
+        if (cat.isEmpty()){
+            return false;
+        }
+        Categorie categorie = cat.get();
+        categorie.setNom(dto.getNom());
+        categorie.setDescription(dto.getDescription());
+        categorieRepository.save(categorie);
+        categorieRepository.flush();
+        return true;
+    }
+
 
 
     @Transactional
-    public boolean addContactToCategorie(String name, Set<ContactDto> contacts) {
-        // 1. Add more detailed validation
-        if (name == null || !categorieRepository.existsByNom(name)) {
+    public boolean addContactToCategorie(String name, ContactDto contactDto) {
+
+
+        Utilisateur utilisateur = serviceUtilisateur.getAuthenticatedUser();
+
+
+        Optional<Categorie> catOptional = utilisateur.getCategories().stream()
+
+                .filter(c -> name.equals(c.getNom()))
+                .findFirst();
+
+        if (catOptional.isEmpty()) {
+
             return false;
         }
 
-        if (contacts == null || contacts.isEmpty()) {
-            return false;
-        }
-
-        Categorie cat = categorieRepository.findByNom(name);
-        if (cat == null) {
-            return false;
-        }
+        Categorie cat = catOptional.get();
 
         if (cat.getContacts() == null) {
+
             cat.setContacts(new HashSet<>());
         }
 
-        boolean anyadded = false;
+        boolean contactExists = false;
+        for (Contact existingContact : cat.getContacts()) {
+            if (existingContact != null && existingContact.getEmail() != null
+                    && existingContact.getEmail().equals(contactDto.getEmail())) {
 
-        for (ContactDto contactDto : contacts) {
-            // 2. Add null check for contactDto
-            if (contactDto == null || contactDto.getEmail() == null) {
-                continue;
-            }
-
-            // 3. Fix the contact comparison logic
-            boolean contactExists = false;
-            for (Contact existingContact : cat.getContacts()) {
-                if (existingContact != null && contactDto.getEmail().equals(existingContact.getEmail())) {
-                    contactExists = true;
-                    break;
-                }
-            }
-
-            if (!contactExists) {
-                Contact contact = serviceContact.getContactEmail(contactDto.getEmail());
-
-                // 4. Check if contact was found
-                if (contact != null) {
-                    cat.getContacts().add(contact);
-
-                    // Initialize categories set if null
-                    if (contact.getCategories() == null) {
-                        contact.setCategories(new HashSet<>());
-                    }
-
-                    contact.getCategories().add(cat);
-                    anyadded = true;
-                }
+                contactExists = true;
+                break;
             }
         }
 
-        if (anyadded) {
+        if (contactExists) {
+            return false;
+        }
+
+
+
+        Contact contact = null;
+        try {
+            contact = serviceContact.getContactEmail(contactDto.getEmail());
+        } catch (Exception e) {
+
+
+            return false;
+        }
+
+        if (contact == null) {
+
+            return false;
+        }
+
+
+
+        cat.getContacts().add(contact);
+        if (contact.getCategories() == null) {
+            contact.setCategories(new HashSet<>());
+        }
+
+        contact.getCategories().add(cat);
+
+        try {
             categorieRepository.save(cat);
-            try {
-                categorieRepository.flush(); // Explicitly flush changes to the database
-            } catch (Exception e) {
-                e.printStackTrace();
-                return false;
-            }
-        }
 
-        return anyadded;
+            return true;
+        } catch (Exception e) {
+
+
+            return false;
+        }
     }
+
 }
